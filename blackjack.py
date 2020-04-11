@@ -1,3 +1,5 @@
+import random
+
 # function to determine a winner of each hand of blackjack
 def black_jack_result(player_hand, dealer_hand):
     """
@@ -25,20 +27,46 @@ def player_hand():
 def dealer_hand():
     pass
 
-#need to figure out best way to implement the deck of cards, that also deletes
-#a card and can be rerun to replenish the deck
-CARD_SUITS = ["hearts", "diamonds", "spades", "clubs"]
-CARD_NUMBERS = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
-CARD_VALUES = [2,3,4,5,6,7,8,9,10,10,10,10,11]
-shuffled_deck = {}
-deck_of_cards = []
 
-#function to "shuffle" a fresh, full deck. 
-def shuffle_deck():
-    for card_suit in CARD_SUITS:
-        for card_number in CARD_NUMBERS:
-            return deck_of_cards.append(card_number + " of " + card_suit) 
+#deck of cards
+class Card(object):
+    def __init__(self, suit, value):
+        self.suit = suit
+        self.value = value
+    def show(self):
+        print ("{} of {}".format(self.value, self.suit))
+    
+# card = Card("Diamonds", 6)
+# card.show()
 
-print(shuffle_deck)
-print(deck_of_cards)
+class Deck(object):
+    def __init__(self):
+        self.cards = []
+        self.build()
 
+    def build(self):
+        for s in ["Spades", "Clubs", "Diamonds", "Hearts"]:
+            for v in range(1, 14):
+                self.cards.append(Card(s, v))
+                #print ("{} of {}".format(v, s))
+
+    def show(self):
+        for c in self.cards:
+            c.show() 
+
+    def shuffle(self):
+        for i in range(len(self.cards)-1, 0, -1):
+            r = random.randint(0, i)
+            self.cards[i], self.cards[r] = self.cards[r], self.cards[i]
+
+    def draw(self):
+        return self.cards.pop()    
+
+
+
+deck = Deck()
+#deck.show()
+deck.shuffle()
+#deck.show()
+card = deck.draw()
+card.show()
